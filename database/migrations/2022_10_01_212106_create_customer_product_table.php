@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductCategoriesTable extends Migration
+class CreateCustomerProductTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateProductCategoriesTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('product_categories')) {
-            Schema::create('product_categories', function (Blueprint $table) {
+        if (!Schema::hasTable('customer_product')) {
+            Schema::create('customer_product', function (Blueprint $table) {
                 $table->id();
+                $table->bigInteger('customer_id')->unsigned()->index()->nullable();
+                $table->foreign('customer_id')->references('id')->on('customer')->onDelete('set null');
                 $table->bigInteger('product_id')->unsigned()->index()->nullable();
                 $table->foreign('product_id')->references('id')->on('products')->onDelete('set null');
-                $table->bigInteger('category_id')->unsigned()->index()->nullable();
-                $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
+                $table->bigInteger('final_status')->unsigned()->index()->nullable();
                 $table->timestamps();
             });
         }
@@ -32,6 +33,6 @@ class CreateProductCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_categories');
+        Schema::dropIfExists('customer_product');
     }
 }

@@ -16,4 +16,20 @@ class Product extends Model
     {
         return $this->belongsToMany(Category::class)->withTimestamps();
     }
+
+    /**
+     * Get the prices for the product.
+     */
+    public function prices()
+    {
+        return $this->hasMany(Product_Price::class);
+    }
+
+    /**
+     * The customers that belong to the product.
+     */
+    public function customers()
+    {
+        return $this->belongsToMany(Customer::class);
+    }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductCategoriesTable extends Migration
+class CreateProductPriceTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateProductCategoriesTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('product_categories')) {
-            Schema::create('product_categories', function (Blueprint $table) {
+        if (!Schema::hasTable('product_price')) {
+            Schema::create('product_price', function (Blueprint $table) {
                 $table->id();
                 $table->bigInteger('product_id')->unsigned()->index()->nullable();
                 $table->foreign('product_id')->references('id')->on('products')->onDelete('set null');
-                $table->bigInteger('category_id')->unsigned()->index()->nullable();
-                $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
+                $table->decimal('mrp');
+                $table->decimal('distributor_price');
+                $table->decimal('dealer_price');
                 $table->timestamps();
             });
         }
@@ -32,6 +33,6 @@ class CreateProductCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_categories');
+        Schema::dropIfExists('product_price');
     }
 }
