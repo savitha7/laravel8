@@ -44,6 +44,18 @@ class ProductController extends Controller
         if ($request->filled('category_id')) {
             $product->categories()->attach($request->category_id);
         }
+
+        if ($request->filled('prices')) {
+
+            $getPrices = [];
+            foreach ($request->prices as $key => $value) {
+                $getPrices[$key]['mrp'] = $value->mrp;
+                $getPrices[$key]['distributor_price'] = $value->distributor_price;
+                $getPrices[$key]['dealer_price'] = $value->dealer_price;
+            }
+
+            $product->prices()->createMany($getPrices);
+        }
         
         return response()->json(['Product created successfully.', new ProductResource($product)]);
     }
@@ -105,4 +117,5 @@ class ProductController extends Controller
 
         return response()->json('Product deleted successfully');
     }
+
 }

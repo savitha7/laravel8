@@ -12,9 +12,9 @@ class Step extends Model
     /**
      * Get the product for the step.
      */
-    public function product()
+    public function products()
     {
-        return $this->hasMany(Product_Step::class);
+        return $this->belongsToMany(Product::class);
     }
 
     /**

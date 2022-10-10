@@ -32,4 +32,12 @@ class Product extends Model
     {
         return $this->belongsToMany(Customer::class);
     }
+
+    /**
+     * The categories that belong to the product.
+     */
+    public function steps()
+    {
+        return $this->belongsToMany(Step::class)->withPivot('sequence');->withTimestamps();
+    }
 }

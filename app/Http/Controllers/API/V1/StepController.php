@@ -5,10 +5,10 @@ namespace App\Http\Controllers\API\V1;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Validator;
-use App\Models\Category;
-use App\Http\Resources\CategoryResource;
+use App\Models\Step;
+use App\Http\Resources\StepResource;
 
-class CategoryController extends Controller
+class StepController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +17,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $data = Category::latest()->get();
-        return response()->json([CategoryResource::collection($data), 'Categories fetched.']);
+        $data = Step::latest()->get();
+        return response()->json([StepResource::collection($data), 'Step fetched.']);
     }
 
     /**
@@ -30,18 +30,18 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'name' => 'required|string|max:255'
+            'step_name' => 'required|string|max:255'
         ]);
 
         if($validator->fails()){
             return response()->json($validator->errors());       
         }
 
-        $category = Category::create([
-            'name' => $request->name
+        $step = Step::create([
+            'step_name' => $request->step_name
          ]);
         
-        return response()->json(['Category created successfully.', new CategoryResource($category)]);
+        return response()->json(['Step created successfully.', new StepResource($step)]);
     }
 
     /**
@@ -52,11 +52,11 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $category = Category::find($id);
-        if (is_null($category)) {
+        $step = Step::find($id);
+        if (is_null($step)) {
             return response()->json('Data not found', 404); 
         }
-        return response()->json([new CategoryResource($category)]);
+        return response()->json([new StepResource($step)]);
     }
 
     /**
@@ -66,20 +66,20 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, Step $step)
     {
         $validator = Validator::make($request->all(),[
-            'name' => 'required|string|max:255'
+            'step_name' => 'required|string|max:255'
         ]);
 
         if($validator->fails()){
             return response()->json($validator->errors());       
         }
 
-        $category->name = $request->name;
-        $category->save();
+        $step->step_name = $request->step_name;
+        $step->save();
         
-        return response()->json(['Category updated successfully.', new CategoryResource($category)]);
+        return response()->json(['Step updated successfully.', new StepResource($step)]);
     }
 
     /**
@@ -88,10 +88,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy(Step $step)
     {
-        $category->delete();
+        $step->delete();
 
-        return response()->json('Category deleted successfully');
+        return response()->json('Step deleted successfully');
     }
 }

@@ -12,7 +12,7 @@ class Product_Price extends Model
     /**
      * Get the post that owns the comment.
      */
-    public function post()
+    public function product()
     {
         return $this->belongsTo(Product::class);
     }
